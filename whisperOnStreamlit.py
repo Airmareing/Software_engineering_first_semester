@@ -1,60 +1,51 @@
+import os
 import whisper
-from datetime import timedelta
-from docx import Document
 import streamlit as st
 
-# Выбираем размер модели
-model_name = 'base'
+# Set page config
+st.set_page_config(
+    page_title='AI Speech to Text converter',
+    page_icon='🎙️',
+    layout='centered',
+    initial_sidebar_state='auto',
+)
 
-@st.cache(allow_output_mutation=True)
-def load_model():
-    model = whisper.load_model(model_name)
+# UI
+st.title('Расшифруйте аудио или видео в текст ✨')
+st.info('Загрузите ваш файл и получите его текстовую расшифровку. Сервис поддерживает все популярные аудио и видео форматы.')
+st.divider()
 
-# Выбираем файл
-def load_audio():
-    uploaded_file = st.file_uploader(label='Выберите аудио для распознавания')
-    if uploaded_file is not None:
-        audio_data = uploaded_file.getvalue()
-        return st.audio(audio_data)
+upload_files_directory = 'uploads/'
+
+# Upload audio or video file
+def Upload_audio_file():
+    # Upload file
+    uploaded_object = st.file_uploader(
+        type=['opus', 'mp3', 'aac', 'flac', 'wv', 'wav',
+              'mp4', 'mov', 'wmv', 'webm', 'avi', 'mkv'],
+        label='Выберите аудио или видео для распознавания',
+        accept_multiple_files=False,
+    )
+
+    # Save uploaded bytes as file
+    if uploaded_object is not None:
+        with open(os.path.join(upload_files_directory, uploaded_object.name), 'wb') as file:
+            file.write(uploaded_object.getbuffer())
+        return uploaded_object.name
     else:
         return None
 
-def Trasncrib(audio):
-    # print(source_file_name)
-    # Транскрибация аудио в текст
-    result = load_model().transcribe(audio)
-    # print(result["text"])
-    # Разбиваем полученный текст по сегментам
-    segments = result['segments']
-    text_massive = []
-    for segment in segments:
-        startTime = str(0)+str(timedelta(seconds=int(segment['start'])))
-        endTime = str(0)+str(timedelta(seconds=int(segment['end'])))
-        text = segment['text']
-        segmentId = segment['id']+1
-        segment = f"{segmentId}. {startTime} - {endTime}\n{text[1:] if text[0] == ' ' else text}"
-        st.write(segment)
-        text_massive.append(segment)
+# Transcribe audio
+def Trasncribe(audio):
+    model = whisper.load_model('base')
+    result = model.transcribe(audio)
+    st.write(result['text'])
 
-    print()
-    print('Finished')
+# Getting name of uploading file to put it into model
+audio_file = Upload_audio_file()
 
-    # Cохраняем текст с таймингом
-    return text_massive
-
-def into_docx(text):
-    # Cоздаем новый документ
-    doc = Document()
-    # Lобавляем параграф с текстом
-    doc.add_paragraph(audio + '_' + model_name)
-    for key in text:
-        doc.add_paragraph(key)
-    # Cохраняем документ
-    doc.save(audio + '_text_timing_' + model_name + '.docx')
-
-
-st.title('Транскрибация аудио')
-audio = load_audio()
-action = st.button('Распознать аудио')
+# Call Trasncribe function
+action = st.button('Распознать аудио', type='primary')
 if action:
-    Trasncrib(audio)
+    st.subheader(audio_file)
+    st.write(Trasncribe(os.path.join(upload_files_directory, audio_file)))
