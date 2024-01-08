@@ -21,5 +21,5 @@ Whisper от OpenAI https://github.com/openai/whisper.
 7. uvicorn
 
 ### Образцы аудио
-audio.opus
-- pushkintucha.opus
+audio.opus  
+pushkintucha.opus
