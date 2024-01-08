@@ -19,3 +19,7 @@ Whisper от OpenAI https://github.com/openai/whisper.
 5. FastAPI
 6. python-multipart
 7. uvicorn
+
+### Образцы аудио
+audio.opus
+pushkintucha.opus
