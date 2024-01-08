@@ -22,4 +22,4 @@ Whisper от OpenAI https://github.com/openai/whisper.
 
 ### Образцы аудио
 audio.opus
-pushkintucha.opus
+- pushkintucha.opus
