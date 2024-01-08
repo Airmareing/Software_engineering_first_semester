@@ -20,6 +20,7 @@ Whisper от OpenAI https://github.com/openai/whisper.
 6. python-multipart
 7. uvicorn
 
-### Образцы аудио
+### Образцы аудио  
+Находятся в репозитории  
 audio.opus  
 pushkintucha.opus
