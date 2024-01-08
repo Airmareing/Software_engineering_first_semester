@@ -1,0 +1,6 @@
+fastapi  
+starlette
+whisper
+uvicorn
+python-multipart
+ffmpeg-python
