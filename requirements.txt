@@ -4,5 +4,3 @@ openai-whisper
 uvicorn
 python-multipart
 ffmpeg-python
-pytest
-os
