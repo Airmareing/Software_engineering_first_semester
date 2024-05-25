@@ -17,6 +17,7 @@ st.divider()
 
 upload_files_directory = 'uploads/'
 
+
 # Upload audio or video file
 def Upload_audio_file():
     # Upload file
@@ -35,11 +36,13 @@ def Upload_audio_file():
     else:
         return None
 
+
 # Transcribe audio
 def Trasncribe(audio):
     model = whisper.load_model('base')
     result = model.transcribe(audio)
     st.write(result['text'])
+
 
 # Getting name of uploading file to put it into model
 audio_file = Upload_audio_file()
