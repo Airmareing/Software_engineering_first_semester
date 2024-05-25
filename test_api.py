@@ -28,4 +28,3 @@ def test_delete_file():
 
     response = client.delete(f"/deletefile/{filename}")
     assert response.status_code == 200
-    
