@@ -14,9 +14,9 @@ upload_files_directory = 'uploads/'
 @app.post("/uploadfile/")
 async def create_upload_file(request: Request, file: UploadFile = File(...)):
     try:
-    # Открываем файл в режиме записи байтов
+        # Открываем файл в режиме записи байтов
         with open(os.path.join(upload_files_directory, file.filename), 'wb') as buffer:
-        # Читаем содержимое файла и записываем его в буфер
+            # Читаем содержимое файла и записываем его в буфер
             contents = await file.read()
             buffer.write(contents)
         # Возвращаем имя загруженного файла
