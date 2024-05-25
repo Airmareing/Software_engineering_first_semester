@@ -1,9 +1,9 @@
 import os
-import pytest
 from fastapi.testclient import TestClient
 from WhisperOnFastAPI import app
 
 client = TestClient(app)
+
 
 # Тест для загрузки файла
 def test_upload_file():
@@ -12,10 +12,12 @@ def test_upload_file():
     assert response.status_code == 200
     assert "filename" in response.json()
 
+
 # Тест для списка файлов (просто проверим успешный статус)
 def test_list_files():
     response = client.get("/listfiles")
     assert response.status_code == 200
+
 
 # Тест для удаления файла (просто проверим успешный статус)
 def test_delete_file():
@@ -26,3 +28,4 @@ def test_delete_file():
 
     response = client.delete(f"/deletefile/{filename}")
     assert response.status_code == 200
+    
